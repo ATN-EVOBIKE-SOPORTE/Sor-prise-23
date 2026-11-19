@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MANDAME LO DE ARMANDO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #07070c;
+      --surface: rgba(255, 255, 255, 0.04);
+      --border: rgba(255, 255, 255, 0.1);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent-1: #ff4d4d;
+      --accent-2: #ffb800;
+      --accent-3: #7c3aed;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100dvh;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+      position: relative;
+      padding: 1.5rem;
+    }
+
+    /* Fondo ambiental con resplandor sutil */
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(124, 58, 237, 0.18), transparent 45%),
+        radial-gradient(circle at 80% 75%, rgba(255, 77, 77, 0.15), transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(255, 184, 0, 0.08), transparent 60%);
+      filter: blur(40px);
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 720px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.95rem;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      backdrop-filter: blur(12px);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 12px #22c55e;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.35); opacity: 0.65; }
+    }
+
+    /* Enlace principal */
+    .cta-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 1.5rem 2.5rem;
+      border-radius: 1.5rem;
+      text-decoration: none;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.5rem, 5vw, 3.1rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.28s ease, box-shadow 0.28s ease;
+      cursor: pointer;
+    }
+
+    .cta-link::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: 1.6rem;
+      background: linear-gradient(120deg, var(--accent-1), var(--accent-2), var(--accent-3), var(--accent-1));
+      background-size: 300% 300%;
+      z-index: -1;
+      opacity: 0;
+      filter: blur(10px);
+      transition: opacity 0.35s ease;
+      animation: gradientShift 5s ease infinite;
+    }
+
+    .cta-link:hover {
+      transform: translateY(-4px) scale(1.015);
+      border-color: rgba(255, 255, 255, 0.4);
+      box-shadow: 0 28px 65px rgba(124, 58, 237, 0.28);
+    }
+
+    .cta-link:hover::before {
+      opacity: 0.85;
+    }
+
+    .cta-link:active {
+      transform: translateY(-1px) scale(0.99);
+    }
+
+    .arrow {
+      display: inline-flex;
+      transition: transform 0.25s ease;
+      font-size: 0.85em;
+    }
+
+    .cta-link:hover .arrow {
+      transform: translate(4px, -4px);
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 440px;
+      line-height: 1.6;
+    }
+
+    /* Panel de acciones rápidas */
+    .actions-card {
+      width: 100%;
+      max-width: 520px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 1.25rem;
+      padding: 1.25rem;
+      backdrop-filter: blur(14px);
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .actions-title {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      padding: 0.7rem 1.15rem;
+      border-radius: 0.85rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.13);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      border-color: transparent;
+      color: #052e16;
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.08);
+    }
+
+    .toast {
+      min-height: 1.25rem;
+      font-size: 0.85rem;
+      color: #4ade80;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-bg" aria-hidden="true"></div>
+
+  <main class="container">
+    <div class="badge">
+      <span class="dot"></span>
+      Recordatorio directo
+    </div>
+
+    <!-- Enlace principal -->
+    <a
+      id="armandoLink"
+      class="cta-link"
+      href="#mandame-lo-de-armando"
+      role="button"
+      aria-label="MANDAME LO DE ARMANDO"
+    >
+      <span>MANDAME LO DE ARMANDO</span>
+      <span class="arrow" aria-hidden="true">↗</span>
+    </a>
+
+    <p class="subtitle">
+      Haz clic en el enlace principal para abrir opciones rápidas o enviar el mensaje de inmediato.
+    </p>
+
+    <section class="actions-card" aria-label="Acciones rápidas">
+      <p class="actions-title">¿Quieres enviarlo o copiar el texto?</p>
+      <div class="btn-row">
+        <a
+          id="whatsappBtn"
+          class="btn btn-primary"
+          href="https://wa.me/?text=MANDAME%20LO%20DE%20ARMANDO"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Enviar por WhatsApp
+        </a>
+        <button id="copyBtn" class="btn" type="button">
+          Copiar texto
+        </button>
+      </div>
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    const texto = "MANDAME LO DE ARMANDO";
+    const armandoLink = document.getElementById("armandoLink");
+    const copyBtn = document.getElementById("copyBtn");
+    const whatsappBtn = document.getElementById("whatsappBtn");
+    const toast = document.getElementById("toast");
+
+    function mostrarAviso(mensaje) {
+      toast.textContent = mensaje;
+      clearTimeout(mostrarAviso._timer);
+      mostrarAviso._timer = setTimeout(() => {
+        toast.textContent = "";
+      }, 2600);
+    }
+
+    async function copiarTexto() {
+      try {
+        await navigator.clipboard.writeText(texto);
+        mostrarAviso("¡Copiado al portapapeles: " + texto + "!");
+      } catch {
+        const temp = document.createElement("textarea");
+        temp.value = texto;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand("copy");
+        document.body.removeChild(temp);
+        mostrarAviso("¡Copiado al portapapeles!");
+      }
+    }
+
+    armandoLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      copiarTexto();
+    });
+
+    copyBtn.addEventListener("click", copiarTexto);
+
+    whatsappBtn.addEventListener("click", () => {
+      mostrarAviso("Abriendo WhatsApp con el mensaje listo...");
+    });
+  </script>
+</body>
+</html>
